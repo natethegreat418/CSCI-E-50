@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Account History
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h2>Your Account History</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Symbol</th>
+                    <th>Value</th>
+                    <th>Number of Shares</th>
+                    <th>Date/Time Transaction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for history in histories %}
+                    <tr>
+                        <td>{{ history.type }}</td>
+                        <td>{{ history.symbol }}</td>
+                        <td>{{ history.value }}</td>
+                        <td>{{ history.num_shares }}</td>
+                        <td>{{ history.history_time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

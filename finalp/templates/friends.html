@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Friends
+{% endblock %}
+
+{% block main %}
+    <h2>Your Friends </h2><br>
+    <table id="foundRequests" class="table table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>From<th>
+                <th>To</th>
+                <th>Status</th>
+                <th>Accept</th>
+            </tr>
+        </thead>
+            <tbody>
+                {% for relation in relations %}
+                
+                    <fieldset>
+                        <tr>
+                            <form action="{{ url_for('acceptrequest') }}" method="post">
+                            <td><input name="relationid" value = "{{ relation.relationship_id }}" hidden readonly></td>
+                            <td><input class="from" value = "{{ relation.user_id }}" readonly></td>
+                            <td><input value = "{{ relation.friend_id }}" readonly></td>
+                            <td><input value = "{{ relation.status }}" readonly></td>
+                            <td><button class="Accept" type = "submit">Acceptt</button></td>
+                            </form>
+                        </tr>
+                    </fieldset>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    <h2>Find new friends!</h2><br>
+    <form action="{{ url_for('find') }}" id="findForm" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="friend_name" placeholder="Full name"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Find!</button>
+            </div>
+        </fieldset>
+    </form>
+    <table id="foundFriends" class="table table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Send Request</th>
+            </tr>
+        </thead>
+            <tbody>
+                {% for friend in foundfriends %}
+                <form action="{{ url_for('addfriend') }}" method="post">
+                    <fieldset>
+                        <tr>
+                            <td><input value = "{{ friend.full_name }}" readonly></td>
+                            <td><input value = "{{ friend.user_id }}" hidden name="friend"></td>
+                            <td><button type = "submit">Send</button></td>
+                        </tr>
+                    </fieldset>
+                </form>
+                {% endfor %}
+            </tbody>
+        </table>
+    <script>
+        $(document).ready(function() {
+            
+            $('#foundFriends').DataTable();
+            $('#foundRequests').DataTable();
+            
+            // hide form accept where appropriate
+            $('.from').each(function(){
+                if ($(this).val() == "{{ user }}" || $(this).val() == "accepted")
+                {
+                    $(this).parents().eq(1).find('.Accept').hide();
+                }
+            });
+        });
+    </script>
+{% endblock %}

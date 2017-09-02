@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""Fetches tweets from Twitter based on user input, analyzes sentiment and prints text and score colored by sentiment"""
+import os
+import sys
+import helpers
+
+from analyzer import Analyzer
+from termcolor import colored
+
+def main():
+
+    # ensure proper usage
+    if len(sys.argv) != 2:
+        sys.exit("Usage: ./tweets @screen_name")
+
+    # absolute paths to lists
+    positives = os.path.join(sys.path[0], "positive-words.txt")
+    negatives = os.path.join(sys.path[0], "negative-words.txt")
+
+    # instantiate analyzer
+    analyzer = Analyzer(positives, negatives)
+    
+    # clean @ from user input
+    cn = sys.argv[1]
+    sn = cn[1:]
+    
+    # fetch tweets
+    twts = helpers.get_user_timeline(sn, 100)
+    
+    # for each tweet retrieved employ analyzer
+    for t in twts:
+        score = analyzer.analyze(t)
+        # print score and text for each tweet
+        if score > 0.0:
+            print(colored("{} {}".format(score, t), "green"))
+        elif score < 0.0:
+            print(colored("{} {}".format(score, t), "red"))
+        else:
+            print(colored("{} {}".format(score, t), "yellow"))
+
+if __name__ == "__main__":
+    main()

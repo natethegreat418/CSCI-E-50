@@ -1,0 +1,17 @@
+1.  stdint.h defines a number of data types for use in the application. These new data types were designed to be more portability across applications and environments because their nature is not defined by implementation within the applciation.  In other words, these data types are standardized.
+2.  While the exact rules differ between these different data types (including uint8_t, uint32_t, int32_t and uint16_t), the important element is that they are standardized across applications so this lends a consistency and guaranteed behavior in many different environments/contexts. 
+3.  BYTE: 1 byte
+    DWORD: 4 bytes
+    LONG: 4 bytes
+    WORD: 2 bytes
+4.  In hexadecimal: 0x4D 0x42
+5.  biSize indicates the number of bytes actually required by the bitmap whereas bfSize indicates the size of the whole .bmp file (inclusive of the header info).
+6.  biHeight indicates the orientation of the pixels for the device-independent bitmap.  A negative biHeight means that the bitmap is "topdown" indicating that the first byte of memory corresponds to the top-left pixel of the image.
+7.  biBitCount indicates color-depth.
+8.  To possible cases are implied by copy.c:
+        1. The input file could not be opened (possibly a permissions issue?)
+        2. The output file could not be created (possibly a permissions or capacity issue?)
+9.  The third argument in fread is always 1, because it is only reading 1 element at a time.
+10. 3.
+11. fseek changes the file position indicator by adding byte-sized offsets to A) the start of the file, B) the current position, or C) the end of the file.
+12. SEEK_CUR is a possible argument for fseek and defines the position to begin the offset as the current file position.

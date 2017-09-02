@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote found!
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <p>
+            <h3>Quote for {{ symbol }} retrieved successfully! </h3><br>
+            Name: {{ name }} <br>
+            Price: {{ price }} 
+        </p>
+        <div class="col-md-6">
+            <h4>Buy this stock.</h4>
+                <form action="{{ url_for('buy') }}" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" name="symbol" value="{{ symbol }}" type="hidden"/>
+                        </div>
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="# Shares" type="number"/>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-default" type="submit">Buy</button>
+                        </div>
+                    </fieldset>
+                </form>
+        </div>
+        <div class="col-md-6">
+            <h4>Sell this stock.</h4>
+                <form action="{{ url_for('sell') }}" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" name="symbol" value="{{ symbol }}" type="hidden"/>
+                        </div>
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" name="numtosell" placeholder="# Shares" type="number"/>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-default" type="submit">Sell</button>
+                        </div>
+                    </fieldset>
+                </form>
+        </div>
+    </div>
+
+
+    
+{% endblock %}

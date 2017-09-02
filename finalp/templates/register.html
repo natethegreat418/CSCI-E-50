@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register a new account!
+{% endblock %}
+
+{% block main %}
+    <h2>Create a new account.</h2><br>
+    <form action="{{ url_for('register') }}" id="registerForm" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="email_address" placeholder="Email" type="email"/>
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="first_name" placeholder="First name"/>
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="last_name" placeholder="Last name"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="password" name="password" placeholder="Password" type="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="rptpassword" placeholder="Confirm Password" type="password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Secure Register</button>
+            </div>
+        </fieldset>
+    </form>
+    <h4>Already have an account? <a href="/login">Log in here.</a></h4>
+    <script>
+        $("#registerForm").validate({
+			rules: {
+			    first_name: {
+			        required: true
+			    },
+			    last_name: {
+			        required: true
+			    },			    
+				password: {
+					required: true,
+					minlength: 5
+				},
+				rptpassword: {
+					required: true,
+					minlength: 5,
+					equalTo: "#password"
+				},
+				email_address: {
+					required: true,
+					email: true,
+				},
+			}
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <h4>When are you free to hang out?</h4>
+            <div class='col-sm-6'>
+                <form action="{{ url_for('addavail') }}" id="addAvail" method="post">
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' name="dtpicker" class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default" type="submit">Add this availability!</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+        <h4>Your Availabiliy</h4>
+        <table id="foundAvail" class="table table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>Date/Time</th>
+            </tr>
+        </thead>
+            <tbody>
+                {% for availrow in availability %}
+                <form action="{{ url_for('deleteavail') }}" method="post">
+                    <fieldset>
+                        <tr>
+                            <td><input value = "{{ availrow.selected_dt }}" readonly></td>
+                            <td><input value = "{{ availrow.availability_id }}" hidden name="discreteavail"></td>
+                            <td><button type = "submit">Delete</button></td>
+                        </tr>
+                    </fieldset>
+                </form>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+            <h4>What do you want to do?</h4>
+            <div>
+                <div class="form-group">
+                    <form id="activityPrefs" action="/action_page.php">
+                        <input type="checkbox" id = "food" class="form-control" name="activities" value="food"> Eat
+                        <input type="checkbox" id = "drink" class="form-control" name="activities" value="drink"> Adult beverages
+                        <input type="checkbox" id = "coffee" class="form-control" name="activities" value="coffiene"> Coffiene
+                        <input type="checkbox" id = "run" class="form-control" name="activities" value="run"> Go for a run
+                        <input type="checkbox" id = "gym" class="form-control" name="activities" value="gym"> Hit the gym
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $( document ).ready(function() {
+                    console.log( "ready!" );
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                    //Listen for changes to preference checkbox, asynchronously post to app
+                    $(":checkbox[name='activities']", "#activityPrefs").change(function() {
+                        console.log('changed');
+                        var cdata = { activities: $(this).val() };
+                        if ($(this).is(":checked"))
+                        {
+                            var sdata = { state: 1 };
+                            $.extend(cdata, sdata)
+                            console.log(cdata);
+                            $.ajax({
+                                type: "post",
+                                url: "{{ url_for('changepref') }}",
+                                data: cdata 
+                            });
+                        }
+                        else
+                        {
+                            var sdata = { state: 0 };
+                            $.extend(cdata, sdata)
+                            console.log(cdata);
+                            $.ajax({
+                                type: "post",
+                                url: "{{ url_for('changepref') }}",
+                                data: cdata 
+                            });
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}

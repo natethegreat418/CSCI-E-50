@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <h1>
+        Welcome {{ username }} !
+    </h1>
+    <div class="container">
+        <h4>Your current portfolio value:</h4>
+            <p>Cash: {{ cash }}</p>
+            <p>Stocks: {{ stocksvalue }}</p>
+            <p>Total: {{ total }}</p>
+        <h4>Your current stock holdings:</h4>
+        <table id="example" class="table table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Symbol</th>
+                    <th>Current Trading Price ($)</th>
+                    <th>Number of Shares</th>
+                    <th>Total Value ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                    <tr>
+                        <td>{{ stock.name }}</td>
+                        <td>{{ stock.symbol }}</td>
+                        <td>{{ stock.price }}</td>
+                        <td>{{ stock.numshares }}</td>
+                        <td>{{ stock.price * stock.numshares}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+        $('#example').DataTable();
+        } );
+    </script>
+{% endblock %}

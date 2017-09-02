@@ -1,0 +1,4 @@
+0. The framework allows dimensions of 3x3 through 9x9 as defined by the DIM_MIN and DIM_MAX.
+1. The game's board is represented as an array.
+2. The function greet() is called to greet the player at game start.
+3. I need to implement: init (initial board setup), draw (recreation of the board after moves), move (allows tiles to be re-arranged by user - given rules), won (indicates if the game is won and should be terminated).
